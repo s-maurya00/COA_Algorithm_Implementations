@@ -21,7 +21,6 @@ int o[8] = {0,0,0,1};
 
 
 
-
 void main()
 {
     int M, Q;   // Multiplicant == M and Multiplier == Q
