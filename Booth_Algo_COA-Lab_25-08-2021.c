@@ -7,7 +7,7 @@
 
 
 void RightShift(); //
-void TwosComp(int BinForm[], int *TwosCompForm);  //(Arg1: bin array to be worked upon; Arg2:bin array where the result is to be stored)
+void TwosComp(int BinForm[], int TwosCompForm[]);  //(Arg1: bin array to be worked upon; Arg2:bin array where the result is to be stored) Complete
 void AddBina(int a[], int M_comp[]);    //(Arg1: ?; Arg2: ?)
 void DeciToBin(int, int, int);  // (Arg1: decimal M to convert into bin; Arg2: decimal Q to convert into Bin; Arg2: Flag indicating signs of M & Q) Complete
 
@@ -50,13 +50,19 @@ void main()
     
     printf("\nThe count using global variable is: %d\n", count);
 
-    printf("\n");
+    printf("\nM_Bin is:\t");
     for(int i = 0; i < count; i++)
     {
         printf("%d", M_Bin[i]);
     }
 
-    printf("\n");
+    printf("\nM_TwosComp is:\t");
+    for(int i = 0; i < count; i++)
+    {
+        printf("%d", M_TwosComp[i]);
+    }
+
+    printf("\nQ_Bin is:\t");
     for(int i = 0; i < count; i++)
     {
         printf("%d", Q_Bin[i]);
@@ -124,7 +130,7 @@ void DeciToBin(int M, int Q, int Flag) //Complete
             {
                 Q_Bin[i] = bin_rev_Q[j];
             }
-            TwosComp(M_Bin, &M_TwosComp);
+            TwosComp(M_Bin, M_TwosComp);
             break;
         }
         case 2: // M +ve & Q -ve
@@ -138,8 +144,8 @@ void DeciToBin(int M, int Q, int Flag) //Complete
             {
                 Q_TwosComp[i] = bin_rev_Q[j];
             }
-            TwosComp(Q_TwosComp, &Q_Bin);
-            TwosComp(M_Bin, &M_TwosComp);
+            TwosComp(Q_TwosComp, Q_Bin);
+            TwosComp(M_Bin, M_TwosComp);
             break;
         }
         case 3: // M -ve & Q +ve
@@ -153,7 +159,7 @@ void DeciToBin(int M, int Q, int Flag) //Complete
             {
                 Q_Bin[i] = bin_rev_Q[j];
             }
-            TwosComp(M_TwosComp, &M_Bin);
+            TwosComp(M_TwosComp, M_Bin);
             break;
         }
         case 4: // Both -ve
@@ -167,8 +173,8 @@ void DeciToBin(int M, int Q, int Flag) //Complete
             {
                 Q_TwosComp[i] = bin_rev_Q[j];
             }
-            TwosComp(Q_TwosComp, &Q_Bin);
-            TwosComp(M_TwosComp, &M_Bin);
+            TwosComp(Q_TwosComp, Q_Bin);
+            TwosComp(M_TwosComp, M_Bin);
             break;
         }
     }
@@ -179,11 +185,9 @@ void DeciToBin(int M, int Q, int Flag) //Complete
 
 
 
-int Twoscomp(int BinForm[], int *TwosCompForm)
+void TwosComp(int BinForm[], int TwosCompForm[])
 // This function calculates the twos complement of entered number and saves it in the second argument pass to this function
 {
-    int *p_m_temp, *p_m_twoscomp;
-
     if(BinForm[count] == 1)
     {
         TwosCompForm[count] = 1;
@@ -223,6 +227,7 @@ int Twoscomp(int BinForm[], int *TwosCompForm)
     }
 
     // //code to change data from m-twoscomp to m-bin?
+    // int *p_m_temp, *p_m_twoscomp;
     // p_m_temp = &M_Bin;
     // p_m_twoscomp = &M_TwosComp;
 
