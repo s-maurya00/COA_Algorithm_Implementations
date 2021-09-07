@@ -2,6 +2,8 @@
 // Try own variation for multiplication of various signed numbers(maybe try storing numbers in a list)
 // Objective: Booth's Algorithm
 
+// Current issue(08-09-2021 ==> 01:20 AM): correct output if M=Q and for the greater number of M or Q but gives error for the smaller number of the two.
+
 #include <stdio.h>
 #include <math.h>
 
@@ -67,6 +69,12 @@ void main()
     {
         printf("%d", Q_Bin[i]);
     }
+
+    printf("\nQ_TwosComp is:\t");
+    for(int i = 0; i < count; i++)
+    {
+        printf("%d", Q_TwosComp[i]);
+    }    
 }
 
 
@@ -77,7 +85,9 @@ void DeciToBin(int M, int Q, int Flag) //Complete
 // This function converts decimal to binary and makes the number of bits to 'NumberOfBitsOfMaxNumber + 1'
 {
     int count_M = 0, count_Q = 0, rem = 0, i = 0, j = 0, bin_rev_M[50], bin_rev_Q[50];
-    
+
+    printf("The Flag is:%d\t", Flag);
+
     while(M > 0) //Loop for converting 'M' in reversed binary
     {
         rem = M % 2;
@@ -117,7 +127,7 @@ void DeciToBin(int M, int Q, int Flag) //Complete
         }        
     }
 
-    switch(Flag)
+    switch(Flag)    // Used for knowing whether m&q are +ve or -ve and storing the binary in 'twoscomp array' or 'binary array' of that variable
     {
         case 1: // Both +ve
         {
@@ -191,7 +201,7 @@ void TwosComp(int BinForm[], int TwosCompForm[])
     if(BinForm[count] == 1)
     {
         TwosCompForm[count] = 1;
-        for(int i = (count - 1); i > 0; i--)
+        for(int i = (count - 1); i >= 0; i--)
         {
             if(BinForm[i] == 0)
             {
@@ -213,7 +223,12 @@ void TwosComp(int BinForm[], int TwosCompForm[])
             BinForm[i] = 0;
             i--;
         }
-        for(i = i; i > 0; i--)
+
+        TwosCompForm[i] = 1;
+        i = i - 1;
+        printf("The value of 'i' is:\t%d", i);
+
+        while(i >= 0)
         {
             if(BinForm[i] == 0)
             {
@@ -223,6 +238,7 @@ void TwosComp(int BinForm[], int TwosCompForm[])
             {
                 TwosCompForm[i] = 0;
             }
+            i--;
         }
     }
 
