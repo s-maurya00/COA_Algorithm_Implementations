@@ -2,8 +2,6 @@
 // Try own variation for multiplication of various signed numbers(maybe try storing numbers in a list)
 // Objective: Booth's Algorithm
 
-// Current issue(08-09-2021 ==> 01:20 AM): correct output if M=Q and for the greater number of M or Q but gives error for the smaller number of the two.
-
 #include <stdio.h>
 #include <math.h>
 
@@ -48,36 +46,8 @@ void main()
     else // both -ve
     {
         DeciToBin(-M, -Q, 4);
-    }
-    
-    printf("\nThe count using global variable is: %d\n", count);
-
-    printf("\nM_Bin is:\t");
-    for(int i = 0; i < count; i++)
-    {
-        printf("%d", M_Bin[i]);
-    }
-
-    printf("\nM_TwosComp is:\t");
-    for(int i = 0; i < count; i++)
-    {
-        printf("%d", M_TwosComp[i]);
-    }
-
-    printf("\nQ_Bin is:\t");
-    for(int i = 0; i < count; i++)
-    {
-        printf("%d", Q_Bin[i]);
-    }
-
-    printf("\nQ_TwosComp is:\t");
-    for(int i = 0; i < count; i++)
-    {
-        printf("%d", Q_TwosComp[i]);
     }    
 }
-
-
 
 
 
@@ -85,8 +55,6 @@ void DeciToBin(int M, int Q, int Flag) //Complete
 // This function converts decimal to binary and makes the number of bits to 'NumberOfBitsOfMaxNumber + 1'
 {
     int count_M = 0, count_Q = 0, rem = 0, i = 0, j = 0, bin_rev_M[50], bin_rev_Q[50];
-
-    printf("The Flag is:%d\t", Flag);
 
     while(M > 0) //Loop for converting 'M' in reversed binary
     {
@@ -131,26 +99,26 @@ void DeciToBin(int M, int Q, int Flag) //Complete
     {
         case 1: // Both +ve
         {
-            for(i = 0, j = count_M; i <=  count_M; i++, j--) //Loop for reversing 'M' and bringing the binary digits in correct order
+            for(i = 0, j = (count-1); i < count; i++, j--) //Loop for reversing 'M' and bringing the binary digits in correct order
             {
                 M_Bin[i] = bin_rev_M[j];
             }
 
-            for(i = 0, j = count_Q; i <= count_Q; i++, j--) //Loop for reversing 'Q' and bringing the binary digits in correct order
+            for(i = 0, j = (count-1); i < count; i++, j--) //Loop for reversing 'Q' and bringing the binary digits in correct order
             {
                 Q_Bin[i] = bin_rev_Q[j];
-            }
+            }            
             TwosComp(M_Bin, M_TwosComp);
             break;
         }
         case 2: // M +ve & Q -ve
         {
-            for(i = 0, j = count_M; i <=  count_M; i++, j--) //Loop for reversing 'M' and bringing the binary digits in correct order
+            for(i = 0, j = (count-1); i < count; i++, j--) //Loop for reversing 'M' and bringing the binary digits in correct order
             {
                 M_Bin[i] = bin_rev_M[j];
             }
 
-            for(i = 0, j = count_Q; i <= count_Q; i++, j--) //Loop for reversing 'Q' and bringing the binary digits in correct order
+            for(i = 0, j = (count-1); i < count; i++, j--) //Loop for reversing 'Q' and bringing the binary digits in correct order
             {
                 Q_TwosComp[i] = bin_rev_Q[j];
             }
@@ -160,12 +128,12 @@ void DeciToBin(int M, int Q, int Flag) //Complete
         }
         case 3: // M -ve & Q +ve
         {
-            for(i = 0, j = count_M; i <=  count_M; i++, j--) //Loop for reversing 'M' and bringing the binary digits in correct order
+            for(i = 0, j = (count-1); i < count; i++, j--) //Loop for reversing 'M' and bringing the binary digits in correct order
             {
                 M_TwosComp[i] = bin_rev_M[j];
             }
 
-            for(i = 0, j = count_Q; i <= count_Q; i++, j--) //Loop for reversing 'Q' and bringing the binary digits in correct order
+            for(i = 0, j = (count-1); i < count; i++, j--) //Loop for reversing 'Q' and bringing the binary digits in correct order
             {
                 Q_Bin[i] = bin_rev_Q[j];
             }
@@ -174,12 +142,12 @@ void DeciToBin(int M, int Q, int Flag) //Complete
         }
         case 4: // Both -ve
         {
-            for(i = 0, j = count_M; i <=  count_M; i++, j--) //Loop for reversing 'M' and bringing the binary digits in correct order
+            for(i = 0, j = (count-1); i < count; i++, j--) //Loop for reversing 'M' and bringing the binary digits in correct order
             {
                 M_TwosComp[i] = bin_rev_M[j];
             }
 
-            for(i = 0, j = count_Q; i <= count_Q; i++, j--) //Loop for reversing 'Q' and bringing the binary digits in correct order
+            for(i = 0, j = (count-1); i < count; i++, j--) //Loop for reversing 'Q' and bringing the binary digits in correct order
             {
                 Q_TwosComp[i] = bin_rev_Q[j];
             }
@@ -193,14 +161,13 @@ void DeciToBin(int M, int Q, int Flag) //Complete
 
 
 
-
-
 void TwosComp(int BinForm[], int TwosCompForm[])
 // This function calculates the twos complement of entered number and saves it in the second argument pass to this function
 {
     if(BinForm[count] == 1)
     {
         TwosCompForm[count] = 1;
+
         for(int i = (count - 1); i >= 0; i--)
         {
             if(BinForm[i] == 0)
@@ -216,8 +183,8 @@ void TwosComp(int BinForm[], int TwosCompForm[])
     else
     {
         TwosCompForm[count] = 0;
-        // for(int i = (count - 1); i > 0; i--)
         int i = count - 1;
+
         while(BinForm[i] != 1)
         {
             BinForm[i] = 0;
@@ -226,7 +193,6 @@ void TwosComp(int BinForm[], int TwosCompForm[])
 
         TwosCompForm[i] = 1;
         i = i - 1;
-        printf("The value of 'i' is:\t%d", i);
 
         while(i >= 0)
         {
@@ -241,16 +207,6 @@ void TwosComp(int BinForm[], int TwosCompForm[])
             i--;
         }
     }
-
-    // //code to change data from m-twoscomp to m-bin?
-    // int *p_m_temp, *p_m_twoscomp;
-    // p_m_temp = &M_Bin;
-    // p_m_twoscomp = &M_TwosComp;
-
-    // for(int i = 0; i < count; i++)
-    // {
-    //     *(p_m_twoscomp + i) = *(p_m_temp + i);
-    // }
 }
 
 // int BinToDeci()
