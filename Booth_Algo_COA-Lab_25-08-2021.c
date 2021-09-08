@@ -6,17 +6,16 @@
 #include <math.h>
 
 
-void DeciToBin(int, int, int);  // (Arg1: decimal M to convert into bin; Arg2: decimal Q to convert into Bin; Arg2: Flag indicating signs of M & Q) Complete
+void DeciToBin(int M, int Q, int Flag);  // (Arg1: decimal M to convert into bin; Arg2: decimal Q to convert into Bin; Arg2: Flag indicating signs of M & Q) Complete
 void TwosComp(int BinForm[], int TwosCompForm[]);  //(Arg1: bin array to be worked upon; Arg2:bin array where the result is to be stored) Complete
 void AddBina(int Add_M[]);    //(Arg1: M_Bin or M_twoscomp)
-void ARightShift(); //Does arithimetic shift right operation on A, Q and Q(-1)
 void Display(int Flag);
+void ARightShift(); //Does arithimetic shift right operation on A, Q and Q(-1)
+void BinToDeci();    //prints the converted value of AQ as result
 
-int BinToDeci();    //prints the converted value of AQ as result
 
-
-int Q_Bin[50], M_Bin[50], M_TwosComp[50], Q_TwosComp[50], Qminus1 = 0;
-int count = 0; //Globally stores the size of signed bit that is larger of the inputed two numbers
+int Q_Bin[50], M_Bin[50], M_TwosComp[50], Q_TwosComp[50], Result_Bin[100], Result_TwosComp[100];
+int count = 0, Qminus1 = 0, result = 0; //Globally stores the size of signed bit that is larger of the inputed two numbers
 int Accumulator[50];
 
 
@@ -111,14 +110,8 @@ void main()     //Working and is correct
             Display(3);
         }
     }
-
-    // printf("\n");
-    // for(int i = 0; i < count; i++)
-    // {
-    //     printf("%d", Accumulator[i]);
-    // }
-    // printf("\n");
-    // BinToDeci();
+    BinToDeci();
+    printf("");
 }
 
 
@@ -259,7 +252,7 @@ void TwosComp(int BinForm[], int TwosCompForm[])    //Working and is correct
 
         while(BinForm[i] != 1)
         {
-            BinForm[i] = 0;
+            TwosCompForm[i] = 0;
             i--;
         }
 
@@ -383,7 +376,107 @@ void Display(int Flag)
     }
 }
 
-// int BinToDeci()
-// {
+void BinToDeci()
+{
+    int rem, base = 1;  //These variables are used while converting binary back to the decimal format
+    int Flag = 0;   // This variable indicates if result was negative or positive
 
-// }
+    //concatinates the binary of 'A' and 'Q' into 'result_binary'
+    int i = 0, j = 0;
+    while(i < count)
+    {
+        Result_Bin[i] = Accumulator[i];
+        i++;
+    }
+    while(j < count)
+    {
+        Result_Bin[i] = Q_Bin[j];
+        j++;
+        i++;
+    }
+
+    printf("\n\nThe Binary form of Result is:\t");
+    for(i = 0; i < (2*count); i++)
+    {
+        printf("%d", Result_Bin[i]);
+    }
+
+    if(Result_Bin[0] == 1)  //Check if result is in twos comp form and changes it into original number by taking the twos comp again
+    {
+        printf("\nSince binary result is negative, we take its Two's Complement which is: ");
+        Flag = 1;   //Indicates answer is negative
+
+        if(Result_Bin[(2*count)-1] == 1)
+        {
+            Result_TwosComp[(2*count)-1] = 1;
+
+            for(int i = ((2*count) - 2); i >= 0; i--)
+            {
+                if(Result_Bin[i] == 0)
+                {
+                    Result_TwosComp[i] = 1;
+                }
+                else
+                {
+                    Result_TwosComp[i] = 0;
+                }
+            }
+        }
+        else
+        {
+            Result_TwosComp[(2*count)-1] = 0;
+            int i = (2*count) - 2;
+
+            while(Result_Bin[i] != 1)
+            {
+                Result_TwosComp[i] = 0;
+                i--;
+            }
+
+            Result_TwosComp[i] = 1;
+            i = i - 1;
+
+            while(i >= 0)
+            {
+                if(Result_Bin[i] == 0)
+                {
+                    Result_TwosComp[i] = 1;
+                }
+                else
+                {
+                    Result_TwosComp[i] = 0;
+                }
+                i--;
+            }
+        }
+
+        for(i = 0; i < (2*count); i++)  //Printing the Twos complement of binary result if it is negative
+        {
+            printf("%d", Result_TwosComp[i]);
+        }
+    }
+
+
+    if(Flag == 1)
+    {
+        //Converts binary result's Two's Complement to decimal form
+        for(i = ((2*count)-1); i >= 0; i--)
+        {
+            rem = Result_TwosComp[i];
+            result = result + (rem * base);
+            base = 2*base;
+        }
+        printf("\nThe Result is:\t-%d\n\n", result);
+    }
+    else
+    {
+        //Converts binary result to decimal result
+        for(i = ((2*count)-1); i >= 0; i--)
+        {
+            rem = Result_Bin[i];
+            result = result + (rem * base);
+            base = 2*base;
+        }
+        printf("\nThe Result is:\t%d\n\n", result);
+    }
+}
