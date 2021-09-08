@@ -1,6 +1,6 @@
-// Date : 25-08-2021    Status : Incomplete     Understood : ----
+// Date : 08-09-2021    Status : Completed     Understood : Yes
 // Try own variation for multiplication of various signed numbers(maybe try storing numbers in a list)
-// Objective: Booth's Algorithm
+// Objective:Own Variation for Booth's Algorithm
 
 #include <stdio.h>
 #include <math.h>
