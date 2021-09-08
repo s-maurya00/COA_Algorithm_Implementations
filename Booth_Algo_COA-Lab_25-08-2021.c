@@ -6,24 +6,25 @@
 #include <math.h>
 
 
-void RightShift(); //
-void TwosComp(int BinForm[], int TwosCompForm[]);  //(Arg1: bin array to be worked upon; Arg2:bin array where the result is to be stored) Complete
-void AddBina(int a[], int M_comp[]);    //(Arg1: ?; Arg2: ?)
 void DeciToBin(int, int, int);  // (Arg1: decimal M to convert into bin; Arg2: decimal Q to convert into Bin; Arg2: Flag indicating signs of M & Q) Complete
+void TwosComp(int BinForm[], int TwosCompForm[]);  //(Arg1: bin array to be worked upon; Arg2:bin array where the result is to be stored) Complete
+void AddBina(int Add_M[]);    //(Arg1: M_Bin or M_twoscomp)
+void ARightShift(); //Does arithimetic shift right operation on A, Q and Q(-1)
+void Display(int Flag);
+
+int BinToDeci();    //prints the converted value of AQ as result
 
 
-int BinToDeci();
-int Q_Bin[50], M_Bin[50], M_TwosComp[50], Q_TwosComp[50], c[4], temp[4], Qminus1 = 0;
+int Q_Bin[50], M_Bin[50], M_TwosComp[50], Q_TwosComp[50], Qminus1 = 0;
 int count = 0; //Globally stores the size of signed bit that is larger of the inputed two numbers
 int Accumulator[50];
-int o[8] = {0,0,0,1};
 
 
 
 
-void main()
+void main()     //Working and is correct
 {
-    int M, Q;   // Multiplicant == M and Multiplier == Q
+    int M, Q;   // Multiplicand == M and Multiplier == Q
 
     printf("Enter the multiplicand: \n");
     scanf("%d", &M);
@@ -31,6 +32,7 @@ void main()
     printf("Enter the multiplier: \n");
     scanf("%d", &Q);
 
+    //if else for getting correct values of twoscomp and binary forms of M and Q
     if((M > 0) && (Q > 0)) //If M & Q both are +ve
     {
         DeciToBin(M, Q, 1);
@@ -46,12 +48,82 @@ void main()
     else // both -ve
     {
         DeciToBin(-M, -Q, 4);
-    }    
+    }
+
+
+    printf("M ==> \t");
+    for(int i = 0; i < count; i++) //printing the binary value of Multiplicand
+    {
+        printf("%d", M_Bin[i]);
+    }
+    printf("\n-M ==> \t");
+    for(int i = 0; i < count; i++) //printing the binary value of Two's Compliment of Multiplicand
+    {
+        printf("%d", M_TwosComp[i]);
+    }
+    printf("\nQ ==> \t");
+    for(int i = 0; i < count; i++) //printing the binary value of Multiplier
+    {
+        printf("%d", Q_Bin[i]);
+    }
+
+
+    //Printing the initial values of A, Q and Q(-1) for the user
+    printf("\n\t\t\tA\t\t|\tQ\t\t|\tQ(-1)\n");
+    printf("\t\t\t----------------|-----------------------|----------------");
+    printf("\nInitialization:");
+    printf("\t\t");
+    for(int i = 0; i < count; i++)
+    {
+        printf("%d ", Accumulator[i]);
+    }
+    printf("\t|\t");
+    for(int i = 0; i < count; i++)
+    {
+        printf("%d ", Q_Bin[i]);
+    }
+    printf("\t|\t%d\n", Qminus1);
+
+
+    //Booths Algo
+    for(int i = count; i > 0; i--)
+    {
+        //If else to check the Q_bin[0]Q_minus1 bits and perform accordingly
+        if(Q_Bin[count-1] > Qminus1)
+        {
+            AddBina(M_TwosComp);
+            Display(2);
+
+            ARightShift();
+            Display(3);
+        }
+        else if(Q_Bin[count-1] < Qminus1)
+        {
+            AddBina(M_Bin);
+            Display(1);
+
+            ARightShift();
+            Display(3);
+        }
+        else
+        {
+            ARightShift();
+            Display(3);
+        }
+    }
+
+    // printf("\n");
+    // for(int i = 0; i < count; i++)
+    // {
+    //     printf("%d", Accumulator[i]);
+    // }
+    // printf("\n");
+    // BinToDeci();
 }
 
 
 
-void DeciToBin(int M, int Q, int Flag) //Complete
+void DeciToBin(int M, int Q, int Flag) //Working and is correct
 // This function converts decimal to binary and makes the number of bits to 'NumberOfBitsOfMaxNumber + 1'
 {
     int count_M = 0, count_Q = 0, rem = 0, i = 0, j = 0, bin_rev_M[50], bin_rev_Q[50];
@@ -161,7 +233,7 @@ void DeciToBin(int M, int Q, int Flag) //Complete
 
 
 
-void TwosComp(int BinForm[], int TwosCompForm[])
+void TwosComp(int BinForm[], int TwosCompForm[])    //Working and is correct
 // This function calculates the twos complement of entered number and saves it in the second argument pass to this function
 {
     if(BinForm[count] == 1)
@@ -209,17 +281,109 @@ void TwosComp(int BinForm[], int TwosCompForm[])
     }
 }
 
-// int BinToDeci()
-// {
 
-// }
 
-// int Add()
-// {
+void AddBina(int Add_M[])   //Cannot check unless i create ARightShift function
+{
+    int carry[count-1];
+    carry[count-1] = 0;
+
+    for(int i = (count-1); i >= 0; i--)
+    {
+        if(carry[i] == 0)    //right but not working
+        {
+            if((Accumulator[i] + Add_M[i]) == 0)
+            {
+                Accumulator[i] = 0;
+                carry[i-1] = 0;
+            }
+            else if((Accumulator[i] + Add_M[i]) == 1)
+            {
+                Accumulator[i] = 1;
+                carry[i-1] = 0;
+            }
+            else
+            {
+                Accumulator[i] = 0;
+                carry[i-1] = 1;
+            }
+        }
+        else //right but not working
+        {
+            if((Accumulator[i] + Add_M[i]) == 0)
+            {
+                Accumulator[i] = 1;
+                carry[i-1] = 0;
+            }
+            else if((Accumulator[i] + Add_M[i]) == 1)
+            {
+                Accumulator[i] = 0;
+                carry[i-1] = 1;
+            }
+            else
+            {
+                Accumulator[i] = 1;
+                carry[i-1] = 1;
+            }
+        }
+    }
+}
+
+
+
+void ARightShift()
+{
+    Qminus1 = Q_Bin[count-1];
+
+    for(int i = (count-1); i > 0; i--)
+    {
+        Q_Bin[i] = Q_Bin[i-1];
+    }
+
+    Q_Bin[0] = Accumulator[count-1];
+
+    for(int i = (count-1); i > 0; i--)
+    {
+        Accumulator[i] = Accumulator[i-1];
+    }
+
+    Accumulator[0] = Accumulator[1];
+}
+
+void Display(int Flag)
+{
+    if(Flag == 1)
+    {
+        printf("A = A + M:\t\t");
+    }
+    else if(Flag == 2)
+    {
+        printf("A = A - M:\t\t");
+    }
+    else
+    {
+        printf("ASR:\t\t\t");
+    }
+
+    for(int i = 0; i < count; i++)
+    {
+        printf("%d ", Accumulator[i]);
+    }
     
-// }
+    printf("\t|\t");
+    for(int i = 0; i < count; i++)
+    {
+        printf("%d ", Q_Bin[i]);
+    }
+    printf("\t|\t%d\n", Qminus1);
 
-//int AriRighShift()
+    if(Flag == 3)
+    {
+        printf("\t\t\t----------------|-----------------------|----------------\n");
+    }
+}
+
+// int BinToDeci()
 // {
 
 // }
