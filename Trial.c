@@ -160,6 +160,13 @@
 
 void main()
 {
-    printf("\n\t\t\t\tA\t|\tQ\t|\tQ1\n");
-    printf("\t\t\t----------------|---------------|----------------");
+    int rem, result = 0, base = 1;
+    int Result_Bin[] = {0,0,1,1,1,1,1,0,0,0,0,0,0,1};
+    for(int i = 13; i >= 0; i--)
+    {
+        rem = Result_Bin[i];
+        result = result + (rem * base);
+        base = base * 2;
+    }
+    printf("%d", result);
 }
