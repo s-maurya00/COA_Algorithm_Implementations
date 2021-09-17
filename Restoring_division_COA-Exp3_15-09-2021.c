@@ -4,15 +4,14 @@
 
 #include <stdio.h>
 
-void DeciToBin(int, int[]);    //Takes the Decimal Input and Returns a 'pointer' of Binary equivalent
-int BinToDeci(int[]);     //Takes the Binary Input and Returns a Decimal equivalent
-int* TwosComp(int[]);   //Takes Binary Input and Returns a 'pointer' to its equivalent Two's Complement
+void DeciToBin(int, int[]);
+int BinToDeci(int[]);
+void TwosComp(int[], int[]);   
 
 void ShiftLeft();       //Left shifts the bits of 'A' and 'Q'
-void AddBin(int Flag);  //Flag decides if we have to add 'M' or '-M' corresponding to '1' and '-1' respectively
+void AddBin(int);       //Flag decides if we have to add 'M' or '-M' corresponding to '1' and '-1' respectively
 void RestoringDivAlgo();    //Performs and calls respective functions to execuite the restoring division Algorithm
-void Display();         //Displays the respective output in step of the Algorithm
-void AdjustZero();
+void Display(int);         //Displays the respective output in step of the Algorithm Flag '-1' suggests initial display and '0' suggests rest all
 
 int Accumulator[50], M_Bin[50], M_TwosComp[50], Q_Bin[50];
 int count = 0, Quotient = 0, Remainder = 0;
@@ -32,27 +31,35 @@ void main()
     DeciToBin(Q, Q_Bin);
     DeciToBin(M, M_Bin);
 
+    TwosComp(M_Bin, M_TwosComp);
+    
+    // Display(-1);
 
-    // printf("\nThe binary of Q is:\t");
-    // for(int i = 0; i < count; i++)
-    // {
-    //     printf("%d", Q_Bin[i]);
-    // }
 
-    // printf("\nThe binary of M is:\t");
-    // for(int i = 0; i < count; i++)
-    // {
-    //     printf("%d", M_Bin[i]);
-    // }
+    printf("\nThe binary of Q is:\t");
+    for(int i = 0; i < count; i++)
+    {
+        printf("%d", Q_Bin[i]);
+    }
 
-    // ptr_m_TC = TwosComp(M_Bin);
+    printf("\nThe binary of M is:\t");
+    for(int i = 0; i < count; i++)
+    {
+        printf("%d", M_Bin[i]);
+    }
+
+    printf("\nThe Twos complement of M is:\t");
+    for(int i = 0; i < count; i++)
+    {
+        printf("%d", M_TwosComp[i]);
+    }
     
     // RestoringDivAlgo();
 }
 
 
 /*
-void RestoringDivAlgo()
+void RestoringDivAlgo() //Dont know if it works yet
 {
     for(int i = 0; i < count; i++)
     {
@@ -78,7 +85,7 @@ void RestoringDivAlgo()
 */
 
 
-void DeciToBin(int Deci, int BinConv[])
+void DeciToBin(int Deci, int BinConv[]) //Works as intended
 {
     int rem = 0, i = 0, j = 0;
     int BinConv_reversed[50];
@@ -107,28 +114,47 @@ void DeciToBin(int Deci, int BinConv[])
     }
 }
 
-/*
 
-int* TwosComp(int Bin[])
+
+void TwosComp(int Bin[], int BinsTwoComp[]) //Dont know if it works yet
 {
-    if(Bin[count] == 0)
+    int i = count-1;
+    
+    printf("The count is: %d", count);
+    if(Bin[count-1] == 1)
     {
-
-    }
-    return Bin;
-}
-
-
-void AdjustZero()
-{
-    if(count_M > count_Q)
-    {
-        count = count_M;
-        for(int i = 0; i < count; i++)
+        BinsTwoComp[count-1] = 1;
+        for(i = (count-2); i >= 0; i--)
+        {
+            if(Bin[i] == 0)
+            {
+                BinsTwoComp[i] = 1;
+            }
+            else
+            {
+                BinsTwoComp[i] = 0;
+            }
+        }
     }
     else
     {
-        count = count_Q;
+        while(Bin[i] != 1)
+        {
+            BinsTwoComp[i] = 0;
+            i--;
+        }
+        BinsTwoComp[i] = 1;
+        i--;
+        for(int j = i; j >= 0; j--)
+        {
+            if(Bin[j] == 0)
+            {
+                BinsTwoComp[j] = 1;
+            }
+            else
+            {
+                BinsTwoComp[j] = 0;
+            }
+        }
     }
 }
-*/
