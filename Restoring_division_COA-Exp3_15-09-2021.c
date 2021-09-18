@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 void DeciToBin(int, int[]);     //done
-void BinToDeci(int[]);
+void BinToDeci(int[], int*);
 void TwosComp(int[], int[]);   //done
 
 void ShiftLeft();       //Left shifts the bits of 'A' and 'Q'
@@ -36,25 +36,6 @@ void main()
     TwosComp(M_Bin, M_TwosComp);
     
     Display(0);
-
-
-    // printf("\nThe binary of Q is:\t");
-    // for(int i = 0; i < count; i++)
-    // {
-    //     printf("%d", Q_Bin[i]);
-    // }
-
-    // printf("\nThe binary of M is:\t");
-    // for(int i = 0; i < count; i++)
-    // {
-    //     printf("%d", M_Bin[i]);
-    // }
-
-    // printf("\nThe Twos complement of M is:\t");
-    // for(int i = 0; i < count; i++)
-    // {
-    //     printf("%d", M_TwosComp[i]);
-    // }
     
     RestoringDivAlgo();
 }
@@ -85,11 +66,23 @@ void RestoringDivAlgo() //Dont know if it works yet
         count_for_disp--;
     }
 
-    // BinToDeci(Accumulator);
-    // BinToDeci(Q_Bin);
+    BinToDeci(Accumulator, &Remainder);
+    BinToDeci(Q_Bin, &Quotient);
 
-    printf("\nThe Quotient is:\t%d", Quotient);
-    printf("\nThe Remainder is:\t%d", Remainder);
+    printf("\nThe Binary form of Quotient is:\t\t");
+    for(int i = 0; i < count; i++)
+    {
+        printf("%d", Q_Bin[i]);
+    }
+
+    printf("\nAnd the Binary form of Remainder is:\t");
+    for(int i = 0; i < count; i++)
+    {
+        printf("%d", Accumulator[i]);
+    }
+
+    printf("\n\nConsequently, the Decimal equivalent of Quotient will be:\t%d", Quotient);
+    printf("\nAnd the Decimal equivalent of Remainder will be:\t\t%d\n\n", Remainder);
 }
 
 
@@ -187,19 +180,6 @@ void Display(int Flag)
     else if(Flag == 1)
     {
         printf("Left Shift AQ:\t\t\t|\t");
-        
-        for(int i = 0; i < count; i++)
-        {
-            printf("%d", Accumulator[i]);
-        }
-        printf("\t|\t");
-
-        for(int i = 0; i < (count-1); i++)
-        {
-            printf("%d", Q_Bin[i]);
-        }
-        printf("_\t|\n");
-        return;
     }
     else if(Flag == 2)
     {
@@ -209,8 +189,7 @@ void Display(int Flag)
     {
         printf("Since A < 0, Q0 = 0 & A = A + M:|\t");
     }
-    else if(Flag == 4)
-    {
+    else if(Flag == 4){
         printf("Since A >= 0, Q0 = 1:\t\t|\t");
     }
     
@@ -220,11 +199,24 @@ void Display(int Flag)
     }
     printf("\t|\t");
 
-    for(int i = 0; i < count; i++)
+    if(Flag == 1 || Flag == 2)
     {
-        printf("%d", Q_Bin[i]);
+        for(int i = 0; i < (count-1); i++)
+        {
+            printf("%d", Q_Bin[i]);
+        }
+        printf("_\t|\n");
+        return;
     }
-    printf("\t|\t");
+    else
+    {
+        for(int i = 0; i < count; i++)
+        {
+            printf("%d", Q_Bin[i]);
+        }
+        printf("\t|\t");
+    }
+
 
     if(Flag == 0)
     {
@@ -308,7 +300,12 @@ void AddBin(int AddAM[])
 
 
 
-void BinToDeci(int BinToDeci[])
+void BinToDeci(int BinToDeci[], int *num)
 {
-
+    int base = 1;
+    for(int i = (count-1); i >= 0; i--)
+    {
+        *num = *num + (BinToDeci[i] * base);
+        base = base * 2;
+    }
 }
