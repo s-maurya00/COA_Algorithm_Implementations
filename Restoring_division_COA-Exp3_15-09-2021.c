@@ -1,17 +1,17 @@
-// Date : 17-09-2021   Status: Incomplete
+// Date : 17-09-2021   Status: Completed
 
 //Program a code for restoring division
 
 #include <stdio.h>
 
-void DeciToBin(int, int[]);     //done
+void DeciToBin(int, int[]);
 void BinToDeci(int[], int*);
-void TwosComp(int[], int[]);   //done
+void TwosComp(int[], int[]);
 
-void ShiftLeft();       //Left shifts the bits of 'A' and 'Q'
+void ShiftLeft();           //Left shifts the bits of 'A' and 'Q'
 void AddBin(int[]);
 void RestoringDivAlgo();    //Performs and calls respective functions to execuite the restoring division Algorithm
-void Display(int);          //Flag = 0(intial disp); 1(ShiftLeft disp); 2(A = A-M); 3(Since A<0, Q0 = 0 & A = A+M); 4(Since A>=0, Q0 = 1)
+void Display(int);
 
 int Accumulator[50], M_Bin[50], M_TwosComp[50], Q_Bin[50];
 int count = 0, Quotient = 0, Remainder = 0, count_for_disp = 0;
@@ -42,7 +42,7 @@ void main()
 
 
 
-void RestoringDivAlgo() //Dont know if it works yet
+void RestoringDivAlgo() //Works Fine;
 {
     while(count_for_disp > 0)
     {
@@ -163,7 +163,7 @@ void TwosComp(int Bin[], int BinsTwoComp[]) //Works as intended
 
 
 
-void Display(int Flag)
+void Display(int Flag)      //Works as intended
 {
     //Flag = 0(intial disp); 1(ShiftLeft disp); 2(A = A-M); 3(Since A<0, Q0 = 0 & A = A+M); 4(Since A>=0, Q0 = 1)
 
@@ -235,7 +235,7 @@ void Display(int Flag)
 
 
 
-void ShiftLeft()
+void ShiftLeft()        //Works as intended
 {
     for(int i = 0; i < (count - 1); i++)
     {
@@ -250,7 +250,7 @@ void ShiftLeft()
 
 
 
-void AddBin(int AddAM[])
+void AddBin(int AddAM[])        //Works as intended
 {
     int carry = 0;
 
@@ -300,7 +300,7 @@ void AddBin(int AddAM[])
 
 
 
-void BinToDeci(int BinToDeci[], int *num)
+void BinToDeci(int BinToDeci[], int *num)       //Works as intended
 {
     int base = 1;
     for(int i = (count-1); i >= 0; i--)
