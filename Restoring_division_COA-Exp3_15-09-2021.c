@@ -10,7 +10,7 @@ void TwosComp(int[], int[]);
 
 void ShiftLeft();           //Left shifts the bits of 'A' and 'Q'
 void AddBin(int[]);
-void RestoringDivAlgo();    //Performs and calls respective functions to execuite the restoring division Algorithm
+void RestoringDivAlgo(int);    //Performs and calls respective functions to execuite the restoring division Algorithm
 void Display(int);
 
 int Accumulator[50], M_Bin[50], M_TwosComp[50], Q_Bin[50];
@@ -20,7 +20,7 @@ int count = 0, Quotient = 0, Remainder = 0, count_for_disp = 0;
 
 void main()
 {
-    int M, Q;
+    int M, Q, SignFlag;
 
     printf("\nEnter the Divident:\t");
     scanf("%d", &Q);
@@ -30,19 +30,60 @@ void main()
 
     printf("\n");
 
-    DeciToBin(Q, Q_Bin);
-    DeciToBin(M, M_Bin);
+    if(M == 0)    //Special cases
+    {
+        printf("\nCannot divide a number by zero!!!\nPlease Re-enter the divisor:\t");
+        scanf("%d", &M);
+        if(M == 0)
+        {
+            printf("Looks like you are persistant about dividing by zero.\nVery well, Your answer is:\n\nQuotient:\tINFINITY!!!\nRemainder:\t0\nThank You (^-^)\n\n");
+            return;
+        }
+    }
+    if(Q < M)   // Divident is less than Divisor
+    {
+        printf("Since the Divident is less than the Divisor, \nThe Quotient will be:\t\t0");
+        printf("\nAnd the Remainder will be:\t%d\n\n", Q);
+        return;
+    }
+
+
+    //This if-else block determines signs of quotient and the remainder
+    if(M > 0 && Q > 0)
+    {
+        DeciToBin(Q, Q_Bin);
+        DeciToBin(M, M_Bin);
+        SignFlag = 1;
+    }
+    else if(M > 0 && Q < 0)
+    {
+        DeciToBin(-Q, Q_Bin);
+        DeciToBin(M, M_Bin);        
+        SignFlag = 2;
+    }
+    else if(M < 0 && Q > 0)
+    {
+        DeciToBin(Q, Q_Bin);
+        DeciToBin(-M, M_Bin);        
+        SignFlag = 3;
+    }
+    else
+    {
+        DeciToBin(-Q, Q_Bin);
+        DeciToBin(-M, M_Bin);        
+        SignFlag = 4;
+    }
 
     TwosComp(M_Bin, M_TwosComp);
     
     Display(0);
     
-    RestoringDivAlgo();
+    RestoringDivAlgo(SignFlag);
 }
 
 
 
-void RestoringDivAlgo() //Works Fine;
+void RestoringDivAlgo(int SignFlag) //Works Fine;
 {
     while(count_for_disp > 0)
     {
@@ -81,8 +122,26 @@ void RestoringDivAlgo() //Works Fine;
         printf("%d", Accumulator[i]);
     }
 
-    printf("\n\nConsequently, the Decimal equivalent of Quotient will be:\t%d", Quotient);
-    printf("\nAnd the Decimal equivalent of Remainder will be:\t\t%d\n\n", Remainder);
+    if(SignFlag == 1)
+    {
+        printf("\n\nConsequently, the Decimal equivalent of Quotient will be:\t%d", Quotient);
+        printf("\nAnd the Decimal equivalent of Remainder will be:\t\t%d\n\n", Remainder);
+    }
+    else if(SignFlag == 2)
+    {
+        printf("\n\nConsequently, the Decimal equivalent of Quotient will be:\t%d", -Quotient);
+        printf("\nAnd the Decimal equivalent of Remainder will be:\t\t%d\n\n", -Remainder);
+    }
+    else if(SignFlag == 3)
+    {
+        printf("\n\nConsequently, the Decimal equivalent of Quotient will be:\t%d", -Quotient);
+        printf("\nAnd the Decimal equivalent of Remainder will be:\t\t%d\n\n", Remainder);
+    }
+    else
+    {
+        printf("\n\nConsequently, the Decimal equivalent of Quotient will be:\t%d", Quotient);
+        printf("\nAnd the Decimal equivalent of Remainder will be:\t\t%d\n\n", -Remainder);
+    }
 }
 
 
