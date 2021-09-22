@@ -225,14 +225,49 @@ void TwosComp(int Bin[], int BinsTwoComp[]) //Works as intended
 void Display(int Flag)      //Works as intended
 {
     //Flag = 0(intial disp); 1(ShiftLeft disp); 2(A = A-M); 3(Since A<0, Q0 = 0 & A = A+M); 4(Since A>=0, Q0 = 1)
+    int tabDisp = 0;
+
+    if((count % 7) != 0)
+    {
+        tabDisp = (int)(count/7);
+    }
+    else if(count > 7)
+    {
+        tabDisp = (int)((count-1) / 7);
+    }
 
     //This if else block is for displaying the correct description
     if(Flag == 0)
     {
-        printf("\t\t\t\t|\tA\t|\tQ\t|\tCount\n");
-        
+        // printf("\t\t\t\t|\tA\t|\tQ\t|\tCount\n");
+        printf("\t\t\t\t|\tA");
+        for(int i = 0; i <= tabDisp; i++)
+        {
+            printf("\t");
+        }
+        // for(int i = 0; i <= tabDisp; i++)
+        // {
+        //     printf("\t");
+        // }
+        printf("|\tQ");
+        for(int i = 0; i <= tabDisp; i++)
+        {
+            printf("\t");
+        }
+        printf("|\tCount\n");
+
         //Prints Design
-        printf("--------------------------------|---------------|---------------|-----------------\n");
+        printf("--------------------------------|---------------");
+        for(int i = 0; i < tabDisp; i++)
+        {
+            printf("--------");
+        }
+        printf("|---------------");
+        for(int i = 0; i < tabDisp; i++)
+        {
+            printf("--------");
+        }
+        printf("|-----------------\n");
 
         printf("Initialization:\t\t\t|\t");
     }
@@ -281,16 +316,37 @@ void Display(int Flag)      //Works as intended
     {
         printf("%d", count_for_disp);
         //Prints Design
-        printf("\n--------------------------------|---------------|---------------|-----------------");
+        printf("\n--------------------------------|---------------");
+        for(int i = 0; i < tabDisp; i++)
+        {
+            printf("--------");
+        }
+        printf("|---------------");
+        for(int i = 0; i < tabDisp; i++)
+        {
+            printf("--------");
+        }
+        printf("|-----------------");
     }
     if(Flag == 3 || Flag == 4)
     {
         printf("%d", (count_for_disp-1));
         //Prints Design
-        printf("\n--------------------------------|---------------|---------------|-----------------");
+        printf("\n--------------------------------|---------------");
+        for(int i = 0; i < tabDisp; i++)
+        {
+            printf("--------");
+        }
+        printf("|---------------");
+        for(int i = 0; i < tabDisp; i++)
+        {
+            printf("--------");
+        }
+        printf("|-----------------");
     }
     printf("\n");
 }
+
 
 
 
