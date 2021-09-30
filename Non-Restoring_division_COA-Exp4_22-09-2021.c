@@ -43,15 +43,14 @@ void NonRestoringDiv(int Q, int M)  // Not sure it works yet-29-09-2021
     //     printf("%d", Q_Bin[i]);
     // }
 
-    // printf("\nM_Bin is:\t");
+    // printf("\nM_TwosC is:\t");
     // for(int i = 0; i < count; i++)
     // {
-    //     printf("%d", M_Bin[i]);
+    //     printf("%d", M_TwosComp[i]);
     // }
 
-
     TwosComp(M_Bin, M_TwosComp);
-    
+
     count_resDiv = count;
     while(count_resDiv >= 0)
     {
@@ -123,7 +122,28 @@ void DeciToBin(int Deci, int BinConv[]) //Works as intended
 
 
 
-void TwosComp(int Bin[], int BinTwosC[])
+void TwosComp(int Bin[], int BinTwosComp[])
 {
+    int i = count-1;
+    while(Bin[i] != 1)
+    {
+        BinTwosComp[i] = Bin[i];
+        i--;
+    }
     
+    BinTwosComp[i] = 1;
+    i--;
+
+    while(i >= 0)
+    {
+        if(Bin[i] == 0)
+        {
+            BinTwosComp[i] = 1;
+        }
+        else
+        {
+            BinTwosComp[i] = 0;
+        }
+        i--;
+    }
 }
