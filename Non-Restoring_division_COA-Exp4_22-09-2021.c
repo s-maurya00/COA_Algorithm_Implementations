@@ -9,32 +9,48 @@ int count = 0, Quotient = 0, Remainder = 0;
 
 void NonRestoringDiv(int, int);
 void DeciToBin(int, int[]);
-void TwosComp(int, int[]);
+void TwosComp(int[], int[]);
 void BinToDeci(int[], int);
+
+
 
 void main()
 {
     int M, Q;
 
     printf("\nEnter the Divident:\t");
-    scanf("%d", Q);
+    scanf("%d", &Q);
     
     printf("\nEnter the Divisor:\t");
-    scanf("%d", M);
+    scanf("%d", &M);
 
-    NonRestoringDiv(M, Q);
+    NonRestoringDiv(Q, M);
 }
 
 
 
 
-void NonRestoringDiv(int M, int Q)  // Not sure it works yet-29-09-2021
+void NonRestoringDiv(int Q, int M)  // Not sure it works yet-29-09-2021
 {
     int count_resDiv;
 
     DeciToBin(Q, Q_Bin);
     DeciToBin(M, M_Bin);
-    TwosComp(M, M_TwosComp);
+
+    // printf("Q_Bin is:\t");
+    // for(int i = 0; i < count; i++)
+    // {
+    //     printf("%d", Q_Bin[i]);
+    // }
+
+    // printf("\nM_Bin is:\t");
+    // for(int i = 0; i < count; i++)
+    // {
+    //     printf("%d", M_Bin[i]);
+    // }
+
+
+    TwosComp(M_Bin, M_TwosComp);
     
     count_resDiv = count;
     while(count_resDiv >= 0)
@@ -70,5 +86,44 @@ void NonRestoringDiv(int M, int Q)  // Not sure it works yet-29-09-2021
     }
     BinToDeci(Q_Bin, Quotient);
     BinToDeci(A, Remainder);
+}
+
+
+
+
+void DeciToBin(int Deci, int BinConv[]) //Works as intended
+{
+    int i = 0, rem;
+    int BinRev[101];
+
+    while(Deci > 0)
+    {
+        rem = Deci & 1;
+        BinRev[i] = rem;
+        Deci = Deci >> 1;
+        i++;
+    }
+
+    if(count == 0)
+    {
+        count = i;
+    }
+
+    for(int j = i; j <= count; j++)
+    {
+        BinRev[j] = 0;
+    }
+
+    for(int i = 0, j = (count-1); i < count; i++, j--)
+    {
+        BinConv[i] = BinRev[j];
+    }
+}
+
+
+
+
+void TwosComp(int Bin[], int BinTwosC[])
+{
     
 }
