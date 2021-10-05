@@ -1,7 +1,7 @@
-// Date : 29-09-2021        Status : Incomplete
+// Date : 29-09-2021        Status : Completed
 
 
-// A == n+1 biits, Q == n bits(inclusive of sign bit), M == n+1 bits
+// A == n+1 bits, Q == n bits(inclusive of sign bit), M == n+1 bits
 #include <stdio.h>
 
 int A[100], M_Bin[101], Q_Bin[101], M_TwosComp[101];
