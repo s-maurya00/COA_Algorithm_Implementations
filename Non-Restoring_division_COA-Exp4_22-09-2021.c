@@ -31,21 +31,45 @@ void main()
     // If else block to determine the sign of quotient and remainder
     if((M > 0) && (Q > 0))          //example +5/+3, Quotient: +1, Remainder: +2
     {
+        if(Q < M) //If statement to check if Q<M
+        {
+            printf("\nThe Quotient is:\t0");
+            printf("\nThe Remainder is:\t%d", Q);
+            return;
+        }
         NonRestoringDiv(Q, M);
     }    
     else if((M > 0) && (Q < 0))     //example -5/+3, Quotient: -1, Remainder: -2
     {
+        if(-Q < M) //If statement to check if Q<M
+        {
+            printf("\nThe Quotient is:\t0");
+            printf("\nThe Remainder is:\t%d", Q);
+            return;
+        }        
         Quo_sign = 1;
         Rem_sign = 1;        
         NonRestoringDiv(-Q, M);
     }    
     else if((M < 0) && (Q > 0))     //example +5/-3, Quotient: -1, Remainder: +2
     {
+        if(Q < -M) //If statement to check if Q<M
+        {
+            printf("\nThe Quotient is:\t0");
+            printf("\nThe Remainder is:\t%d", Q);
+            return;
+        }        
         Quo_sign = 1;
         NonRestoringDiv(Q, -M);
     }
     else                            //example -5/-3, Quotient: +1, Remainder: -2
     {
+        if(-Q < -M) //If statement to check if Q<M
+        {
+            printf("\nThe Quotient is:\t0");
+            printf("\nThe Remainder is:\t%d", Q);
+            return;
+        }
         Rem_sign = 1;
         NonRestoringDiv(-Q, -M);
     }
