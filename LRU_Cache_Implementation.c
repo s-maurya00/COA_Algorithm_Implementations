@@ -1,0 +1,210 @@
+// Date : 15-11-2021        Status : Incomplete
+
+//Objective - Lru cache implementation: accept memory size between 1-5; next ask number of pages to be added; next ask for all page to be added at once; maintatin hit and fault count; remove unused pages if new is to be inserted; display cache storage for each added element; display hit ratio.
+
+//IMP ==> Here, when we declare an array along with initialization, the elements that have not been initialized get initialize to zero directly by the compiler
+
+
+// hit ratio = (number of hits / (total number cache hits + faults))
+
+
+#include <stdio.h>
+#include <string.h>
+#include <malloc.h>
+
+#define MAX 5
+
+// functions: main, lru(will call and maintain counter & hit ratio), 
+int convert_input(int [], char []);     // Done  // Takes string input of pages and converts & stores them into integer array
+int LRU(int, int, int []);
+void display(int);  // display to display the frames in process
+
+
+
+
+struct queue
+{
+    int pageData[MAX];
+    int front, rear;
+};
+
+
+void addq(struct queue *, int);
+void deq(struct queue *);
+
+
+void main()
+{
+    int size, pages[100], totFrame = 0, numOfInp;
+    char strInp[100];
+    struct queue q; 
+    q.front = q.rear = -1; 
+
+    while(1)
+    {
+        printf("\nEnter number of frame(only between 1 & 5) in cache:\t");
+        scanf("%d", &totFrame);
+        if(totFrame > 0 && totFrame < 6)
+        {
+            break;
+        }
+    }
+
+    printf("\nEnter all pages to be added(separated by a blank space):\n");
+    gets(strInp);
+    gets(strInp);
+
+    numOfInp = convert_input(pages, strInp);
+
+    printf("The entered pages are: \t");
+    for(int i = 0; i <= numOfInp; i++)
+    {
+        printf("%d ", pages[i]);
+    }
+
+    LRU(totFrame, numOfInp, pages);
+}
+
+
+
+
+// converts single line string input into array of integers input and returns its size
+int convert_input(int K[], char strInp[200])    // Works Perfectly - 28-11-2021
+{
+    int j=0, i=0, temp=0;
+    while(strInp[i] != '\0')
+    {
+        temp = 0;
+        while(strInp[i] != ' ')
+        {
+            temp = temp*10 + (strInp[i++] - '0');   // str[i]-'0' works as follows: str[i] returns a string char containing a number. When we perform eg. '4' - '0' ==> we get, subtraction of their ASCII value ==>  52-48 = 4; Hence, we get 4 as a value.
+        }
+        if(strInp[i] == ' ')
+        {
+            i++;
+        }
+        K[j++] = temp;
+    }
+    return j-1;
+}
+
+
+
+
+int LRU(int totFrame, int numOfInp, int pages[])
+{
+    int hitCount = 0, faultCount = 0; 
+    int frames[totFrame];   // array to store all frames of cache
+    int lruArr[totFrame];   // an array to store the last entered new cache page
+
+    memset(lruArr, -1, totFrame*sizeof(lruArr[0]));      // dont know what it does
+    
+    // Prints frame number headings
+    printf("|  Page Data\t|  Hit/Miss\t\t");
+    for(int i = 0; i < totFrame; i++)
+    {
+        printf("|  Frm%d\t", i+1);
+    }
+
+    for(int i = 0; i <= numOfInp; i++)
+    {
+        printf("|  %d\t\t", pages[i]);  //prints page Data for 1st column
+        // int j = 0;
+        // printf("\n");
+        // for(j = 0; j < totFrame; j++)       // for checking if current frames have the requested frame
+        // {
+        //     if(frames[j] == pages[i])  //breaks if page is present in cache
+        //     {
+        //         hitCount++;
+        //         break;
+        //     }
+        // }
+        // if(j == totFrame)
+        // {
+        //     faultCount++;
+            
+        // }
+
+        // for()
+        // {
+
+        // }
+        
+        // if(i < totFrame)
+        // {
+
+        // }
+        if(lruArr[totFrame-1] != 0)    // will store pages in cache until frames are full while checking for possible hits
+        {
+            for(int j = 0; j < totFrame; j++)
+            {                
+                if(lruArr[j] == pages[i])   //if hit then this
+                {
+                    hitCount++;
+                    printf("|  Hit\t\t");
+                    for(int j = 0; j <= totFrame; j++)
+                    {
+                        printf("|  %d\t", lruArr[j]);
+                    }
+                    printf("\n");
+                    continue;
+                }
+            }
+
+            lruArr[i] = pages[i];
+            for(int j = 0; j <= i; j++)
+            {
+                printf("|  %d\t", lruArr[j]);
+            }
+        }
+        else
+        {
+
+        }
+        pritnf("\n");
+    }
+}
+
+
+
+
+void display(int flag)  //flag == hit of fault
+{
+
+}
+
+
+
+
+void addq(struct queue *q, int num)
+{
+    struct queue *temp;
+    temp = (struct queue *)malloc(sizeof(struct queue));
+
+    if(temp == NULL)
+    {
+        printf("\nQueue is Full!!!");
+        return;
+    }
+    
+    temp->pageData = num;
+
+    if(q->front == NULL)
+    {
+        q->front = q->rear = temp;
+        q = temp;
+    }
+    else
+    {
+        temp->front = q->rear;
+        q->rear = temp;
+    }
+}
+
+
+
+
+void deq(struct queue *q)
+{
+
+}
