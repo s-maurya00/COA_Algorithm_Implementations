@@ -35,6 +35,8 @@ void main()
     numOfInp = convert_input(pages, strInp);
 
     FIFO(totFrame, numOfInp, pages);
+
+    getch();
 }
 
 

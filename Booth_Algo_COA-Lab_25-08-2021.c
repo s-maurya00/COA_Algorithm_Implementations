@@ -104,6 +104,7 @@ void main() //Working and is correct
     }
     BinToDeci();
     printf("");
+    getch();
 }
 
 void DeciToBin(int M, int Q, int Flag) //Working and is correct

@@ -79,6 +79,7 @@ void main()
     Display(0);
     
     RestoringDivAlgo(SignFlag);
+    getch();
 }
 
 

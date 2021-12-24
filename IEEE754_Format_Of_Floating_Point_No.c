@@ -52,6 +52,7 @@ void main()
     num_fract = (num-num_int);
 
     IEEE754(num_int, num_fract);
+    getch();
 }
 
 

@@ -52,6 +52,7 @@ void main()
     printf("\n");
 
     LRU(totFrame, numOfInp, pages);
+    getch();
 }
 
 

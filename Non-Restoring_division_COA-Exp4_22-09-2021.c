@@ -73,6 +73,7 @@ void main()
         Rem_sign = 1;
         NonRestoringDiv(-Q, -M);
     }
+    getch();
 }
 
 
