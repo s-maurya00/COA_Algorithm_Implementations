@@ -30,8 +30,16 @@ void main()
     }
     else if(num == 0.0)
     {
-        //Write code to print Single precision 0 and Double Precision Zeros
+        //Display code:
+        printf("\nSingle Precision Representation of the Floating point No %lf is:\n\n", num);
+        printf("------------------------------------------------\n");
+        printf("| 0 | 0000 0000 | 0000 0000 0000 0000 0000 000 |");
+        printf("\n------------------------------------------------\n");
 
+        printf("\nDouble Precision Representation of the Floating point No %lf is:\n\n", num);
+        printf("----------------------------------------------------------------------------------------\n");
+        printf("| 0 | 000 0000 0000 | 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 |");
+        printf("\n----------------------------------------------------------------------------------------\n");
         return;
     }
     else    //If number if negative, Just change the Sign bit to 1 and num to its positive value for calculation purpose
@@ -44,39 +52,48 @@ void main()
     num_fract = (num-num_int);
 
     IEEE754(num_int, num_fract);
-    // printf("\nCount is: %d", count);
 }
 
 
 
 void IEEE754(int num_int, double num_fract) //works till date -> 22-10-2021
 {
-    int num_int_bin[52] = {0}, num_fract_bin[52] = {0};   //Here, when we declare an array along with initialization, the elements that have not been initialized get initialize to zero directly by the compiler
+    int num_int_bin[52] = {0}, num_fract_bin[104] = {0};   //Here, when we declare an array along with initialization, the elements that have not been initialized get initialize to zero directly by the compiler
     
-    DeciToBin((double)num_int, num_int_bin, 0); //converting integer part to binary
+    if(num_int != 0)    //checks if num_int is non-zero
+    {
+        DeciToBin((double)num_int, num_int_bin, 0); //converting integer part to binary
+    }
 
     DeciToBin(num_fract, num_fract_bin, 1);     //converting fraction part to binary
 
-    // printf("\nBefore: Displaying num_int_BIN:\t");
-    // for(int i = 0; i < count; i++)
-    // {
-    //     printf("%d", num_int_bin[i]);
-    // }
-
-    // printf("\nDisplaying num_fract_BIN:\t");
-    // for(int i = 0; i < 52; i++)
-    // {
-    //     printf("%d", num_fract_bin[i]);
-    // }
-
-    for(int i = 51; i >= count-1; i--)        //loop for shifting the mantissa part to get the space for adding the bits of num_int_bin
+    printf("\nBefore: Displaying reversed num_int_BIN:\t");
+    for(int i = 0; i < count; i++)
     {
-        num_fract_bin[i] = num_fract_bin[i-(count-1)];
+        printf("%d", num_int_bin[i]);
     }
 
-    for(int i = count-1; i > 0; i--)    //loop for inserting count-1 elements in begining of mantissa
+    printf("\nDisplaying reversed num_fract_BIN:\t");
+    for(int i = 0; i < 52; i++)
     {
-        num_fract_bin[i-1] = num_int_bin[i];
+        printf("%d", num_fract_bin[i]);
+    }
+
+    if((num_int != 0) || (num_int != 1))
+    {
+        for(int i = 51; i >= count-1; i--)  //loop for shifting the mantissa part to get the space for adding the bits of num_int_bin
+        {
+            num_fract_bin[i] = num_fract_bin[i-(count-1)];
+        }
+
+        for(int i = count-1; i > 0; i--)    //loop for inserting count-1 elements in begining of mantissa
+        {
+            num_fract_bin[i-1] = num_int_bin[i];
+        }
+    }
+    else if(num_int == 0)
+    {
+        
     }
 
     SinglePrecision(num_fract_bin);
@@ -87,24 +104,24 @@ void IEEE754(int num_int, double num_fract) //works till date -> 22-10-2021
 
 void DeciToBin(double numFloat, int BinArr[], int Flag) //works till date->22-10-2021
 {
-    int rem, temp_count, temp[52];
+    int rem, temp_count; //temp[52];
     double diff;
 
-    if(Flag == 0)   //For integer part & Exponenet part
+    if(Flag == 0)   //For integer part & Exponent part
     {
         temp_count = 0;
-        int num = numFloat;
-        while(num > 0)
+        int n = numFloat;
+        while(n > 0)
         {
-            rem = num % 2;
-            temp[temp_count] = rem;
-            num = num / 2;
+            rem = n % 2;
+            BinArr[temp_count] = rem;
+            n = n / 2;
             temp_count++;
         }
-        for(int i = 0; i < temp_count; i++)
-        {
-            BinArr[i] = temp[temp_count-i-1];
-        }
+        // for(int i = 0; i < temp_count; i++)
+        // {
+        //     BinArr[i] = temp[temp_count-i-1];
+        // }
         if(count == 0)
         {
             count = temp_count;
@@ -121,7 +138,7 @@ void DeciToBin(double numFloat, int BinArr[], int Flag) //works till date->22-10
             
             diff = numFloat - rem;      // stores the fraction part after multiplication by 2
 
-            if(diff != 0.0)
+            if(diff != 0.0)             // if diff is zero that means that the remaining bits of num_fract will be zero
             {
                 numFloat = diff;
             }
@@ -133,6 +150,8 @@ void DeciToBin(double numFloat, int BinArr[], int Flag) //works till date->22-10
         }
     }
 }
+
+
 
 
 void SinglePrecision(int BinFract[])    //calculates biased exponenet for SinglePrecision Representation
@@ -173,6 +192,8 @@ void SinglePrecision(int BinFract[])    //calculates biased exponenet for Single
     printf(" | ");
     printf("\n-------------------------------------------------\n");
 }
+
+
 
 
 void DoublePrecision(int BinFract[])    //calculates biased exponenet for DoublePrecision Representation

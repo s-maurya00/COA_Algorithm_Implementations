@@ -1,4 +1,4 @@
-// Date : 15-11-2021        Status : Incomplete
+// Date : 15-11-2021        Status : Complete
 
 //Objective - Lru cache implementation: accept memory size between 1-5; next ask number of pages to be added; next ask for all page to be added at once; maintatin hit and fault count; remove unused pages if new is to be inserted; display cache storage for each added element; display hit ratio.
 
@@ -35,7 +35,10 @@ void main()
         }
     }
 
-    printf("\nEnter all pages to be added(separated by a blank space):\n");
+    printf("\nEnter all pages to be added(separated by a blank space):");
+    printf("\nNOTE: Input must have a whitespace at the end of the string:");
+    printf("\nEg. ==> '1 2 3 2 1 4 3 4 5 3 6 '\n");
+
     gets(strInp);
     gets(strInp);
 
@@ -114,51 +117,51 @@ int LRU(int totFrame, int numOfInp, int pages[])
     {
         printf("|  %d\t\t", pages[i]);  //prints page Data for 1st column
 
-        if(lruArr[0][totFrame-1] == -1)    // Stores if initially frames are EMPTY
+        flag = 0;
+        for(int j = 0; j < totFrame; j++)   // Loop for checking HITs
         {
-            flag = 0;
-            for(int j = 0; j < totFrame; j++)   // Loop for checking HITs
+            if(lruArr[0][j] == pages[i])   // if HIT, then carry below code and break loop
             {
-                if(lruArr[0][j] == pages[i])   // if HIT, then carry below code and break loop
+                hitCount++;
+                printf("|  Hit\t\t");
+                for(int k = 0; k < totFrame; k++)
                 {
-                    hitCount++;
-                    printf("|  Hit\t\t");
-                    for(int k = 0; k < totFrame; k++)
-                    {
-                        printf("|  %d\t", lruArr[0][k]);
-                    }
-                    printf("|\n");
-
-                    // prints design
-                    printf("|---------------|---------------|");
-                    for(int k = 0; k < totFrame; k++)
-                    {
-                        printf("-------|");
-                    }
-                    printf("\n");
-
-                    // To assign LruOrder
-                    int countUpto = lruArr[1][j];
-                    lruArr[1][j] = totFrame + 1;    // assigning totFrame+1 since it will be reduced by one in the loop below
-                    for(int k = 0; k < totFrame; k++)
-                    {
-                        if(countUpto < lruArr[1][k] )
-                        {
-                            lruArr[1][k]--;
-                        }
-                    }
-
-                    flag = 1;
-                    break;
+                    printf("|  %d\t", lruArr[0][k]);
                 }
-            }
+                printf("|\n");
 
-            if(flag == 1)   // goto next iteration since this iteration encountered a hit
-            {
-                continue;
-            }
+                // prints design
+                printf("|---------------|---------------|");
+                for(int k = 0; k < totFrame; k++)
+                {
+                    printf("-------|");
+                }
+                printf("\n");
 
-            faultCount++;
+                // To assign LruOrder
+                int countUpto = lruArr[1][j];
+                lruArr[1][j] = totFrame + 1;    // assigning totFrame+1 since it will be reduced by one in the loop below
+                for(int k = 0; k < totFrame; k++)
+                {
+                    if(countUpto < lruArr[1][k])
+                    {
+                        lruArr[1][k]--;
+                    }
+                }
+
+                flag = 1;
+                break;
+            }
+        }
+        if(flag == 1)   // goto next iteration since this iteration encountered a hit
+        {
+            continue;
+        }
+
+        faultCount++;
+
+        if(posToUpdate < totFrame)  // if frames are still vacant and it is a fault
+        {
             lruArr[0][posToUpdate] = pages[i];
             
             // To assign LruOrder
@@ -172,31 +175,46 @@ int LRU(int totFrame, int numOfInp, int pages[])
             }
             posToUpdate++;
             
-
-            printf("|  Miss\t\t");
-            for(int j = 0; j < totFrame; j++)
-            {
-                printf("|  %d\t", lruArr[0][j]);
-            }
-
-            //prints design
-            printf("|\n|---------------|---------------|");
-            for(int j = 0; j < totFrame; j++)
-            {
-                printf("-------|");
-            }
-            printf("\n");            
         }
-        else    // Else part if all frames have been initialized at least once
+        else        // if frames are not vacant, we have to replace page
         {
+            for(int j = 0; j < totFrame; j++)
+            {
+                if(lruArr[1][j] == 1)
+                {
+                    lruArr[0][j] = pages[i];
 
+                    // To assign LruOrder
+                    lruArr[1][j] = totFrame + 1;
+                    for(int k = 0; k < totFrame; k++)
+                    {
+                        lruArr[1][k]--;
+                    }
+                    break;
+                }
+            }
         }
+
+        printf("|  Miss\t\t");
+        for(int j = 0; j < totFrame; j++)
+        {
+            printf("|  %d\t", lruArr[0][j]);
+        }
+
+        //prints design
+        printf("|\n|---------------|---------------|");
+        for(int j = 0; j < totFrame; j++)
+        {
+            printf("-------|");
+        }
+        printf("\n");
     }
+
     printf("\nThe hit count is:\t%d", hitCount);
     printf("\nThe fault count is:\t%d", faultCount);
-    printf("\nPrinting the order of elements:\t");
-    for(int i = 0; i < totFrame; i++)
-    {
-        printf("%d ", lruArr[1][i]);
-    }
+
+    float hitRatio;
+    hitRatio = (float)hitCount/(hitCount+ faultCount);
+
+    printf("\nThe Hit Ratio is:\t%f", hitRatio);
 }
